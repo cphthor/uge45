@@ -1,0 +1,97 @@
+1)Hvor mange leverandører kommer fra Tyskland?
+
+Svar:
+select * from suppliers where country = "Germany"  ;
+
+
+2) Lav en liste så man kan se den kategori fra products der forekommer færrest gange
+Svar:
+select count(categoryid),categoryid from products group by CategoryID order by 1;
+
+
+3) Opdatér orderdate i orders så datoerne begynder i 2018 og slutter i 2019.
+Altså f.eks skal datoen for orderid 10443 ændres fra 1997-02-12 til 2019-11-01
+
+Svar:
+update orders set orderdate = adddate(orderdate, interval 23 year);
+update orders set orderdate = adddate(orderdate, interval 262 day);
+
+
+
+
+4) Find den varekategori der har genereret flest penge - f.eks ved at frembringe flg:
+total	CategoryID
+22,328	5
+23,634	7
+29,652	8
+35,072	2
+51,677	6
+54,909	3
+70,377	4
+99,464	1
+
+Svar:
+select FORMAT(sum(p.price * o.quantity),0) as total, CategoryID from order_details o, products p
+where o.ProductID = p.ProductID group by CategoryID order by 1 asc;
+
+5) Find de varer som ikke indgår i en ordre, dvs. De er ikke blevet solgt overhovedet
+Svar:
+select * from order_details od
+right join products p
+on od.ProductID = p.ProductID where od.OrderDetailID is NULL;
+
+
+6) Find den ansatte der har lavet flest ordrer - f.eks ved at frembringe flg:
+total	EmployeeID
+6	9
+11	5
+14	7
+18	6
+20	2
+27	8
+29	1
+31	3
+40	4
+
+Svar: 
+select count(em.EmployeeID) as total, em.EmployeeID from employees em 
+join orders o
+on o.EmployeeID = em.EmployeeID group by em.EmployeeID order by 1;
+
+7) Find det shippingfirma der bliver brugt mest - f.eks ved at frembringe flg:
+total	ShipperID
+54	1
+74	2
+68	3
+
+Eller
+
+total	ShipperID
+54	1
+74	2
+68	3
+0	NULL
+
+Svar:
+select count(o.ShipperID) as total, o.ShipperID from orders as o
+join shippers s on s.ShipperID = o.ShipperID group by o.ShipperID;
+(Det her er jo også ok:
+select count(*) as total, s.ShipperID from shippers as s, orders as o
+where s.ShipperID = o.ShipperID group by s.ShipperID;
+select count(o.ShipperID) as total, o.ShipperID from orders as o
+right join shippers s on s.ShipperID = o.ShipperID group by o.ShipperID;
+
+
+8) Spørgsmålet om at finde den varekategori der havde genereret flest penge frembragte:
+total	CategoryID
+99,464	1
+
+Hvordan kan man opdatere databasen så den frembringer flg:
+total,CategoryID
+93	1
+(Brug start transaction og rollback hvis du ikke har lavet en backup)
+Svar:
+update order_details set quantity = 1 where productid in (select ProductID from products where CategoryID = 1);
+update products set price = 1 where   CategoryID = 1;
+
+
