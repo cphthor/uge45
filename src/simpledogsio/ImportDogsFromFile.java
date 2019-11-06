@@ -40,6 +40,7 @@ public class ImportDogsFromFile {
 		int tmpMid = 0;
 		int tmpFid = 0;
 		String filenameOut = "Data/output.sql";
+		String filenameOutcsv = "Data/output.csv";
 		String sqlLine = "INSERT INTO DOGS (DogID,Color,Breed,DogName,Gender,CityOrigin,MotherID,FatherID) ";
 		sqlLine += " VALUES(%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,%d)";
 		String line = "";
@@ -80,12 +81,12 @@ public class ImportDogsFromFile {
 								// then we have a match
 								System.out.println("Match" + line);
 								if (!(prevM.length()>1)){
-									System.out.println("new mother");
+									System.out.println("new father");
 							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 									prevM = myArr[3];
 									prevMid = Integer.parseInt(myArr[0]);
 								} else {
-									System.out.println("we have Male offfspring ");
+									System.out.println("we have Male offspring! ");
 							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 									//we have an offspring
 									prevFid = 0;
@@ -114,7 +115,7 @@ public class ImportDogsFromFile {
 								} else {
 									//we have an offspring
 							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
-									System.out.println("offspring");
+									System.out.println("we have female offspring!");
 									prevFid = 0;
 									prevMid = 0;
 									prevF ="";
