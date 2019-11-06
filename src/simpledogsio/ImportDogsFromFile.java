@@ -1,7 +1,10 @@
 package simpledogsio;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -9,8 +12,9 @@ import java.util.Scanner;
  * @author thor
  */
 public class ImportDogsFromFile {
-
-	public final String[] breeds = {"Affenpinscher","Airedale Terrier","Akita","Akita X","Alaskan Malamute","Alaskan Malamute X","American Bull Dog","American Bull Terrier","American Pit Bull","American Staffordshire Terrier","American Staffordshire Terrier Cross","Anatolian Shepherd Dog","Anatolian Shepherd Dog X","Aust Bulldog","Australian Cattle Dog","Australian Cattle Dog X","Australian Kelpie","Australian Kelpie X","Australian Shepherd","Australian Shepherd X","Australian Silky Terrier","Australian Silky Terrier X","Australian Stumpy Tail Cattle Dog","Australian Stumpy Tail Cattle Dog X","Australian Terrier","Australian Terrier X","Basenji","Basenji X","Bassett Hound","Bassett Hound X","Beagle","Beagle X","Bearded Collie","Bearded Collie X","Bedlington Terrier","Belgian Shepherd Dog","Belgian Shepherd Dog X","Bernese Mountain Dog","Bernese Mountain Dog X","Bichon Frise","Bichon Frise x","Border Collie","Border Collie X","Border Terrier","Boston Terrier","Boston Terrier X","Bouvier Des Flandres","Boxer","Boxer X","Breed_Description","British Bulldog","British Bulldog X","Brittany","Bull Terrier","Bull Terrier (Miniature)","Bull Terrier X","Bulldog","Bullmastiff","Bullmastiff X","Cairn Terrier","Cairn Terrier X","Cane Corso","Cavalier King Charles Spaniel","Cavalier King Charles Spaniel X","Chesapeake Bay Retriever","Chihuahua","Chihuahua X","Chinese Crested Dog","Chinese Crested Dog X","Chow Chow","Chow Chow X","Cocker Spaniel","Cocker Spaniel (American)","Cocker Spaniel X","Collie (Rough Coat) X","Collie (Rough)","Collie (Smooth)","Collie (Smooth) X","Coolie","Coolie X","Corgi","Corgi X","Curly Coated Retriever","Curly Coated Retriever X","Dachshund","Dachshund (Miniature)","Dachshund X","Dalmation","Dalmation X","Dandie Dinmont Terrier X","Deerhound","Deerhound X","Dobermann","Dobermann X","Dogue De Bordeaux","Dogue De Bordeaux X","Dutch Shepherd","English Setter","English Springer Spaniel","English Springer Spaniel X","English Toy Terrier","Fauve De Bretagne","Field Spaniel","Finnish Lapphund","Flatcoated Retriever","Fox Terrier (Smooth)","Fox Terrier (Smooth)  X","Fox Terrier (Wire)","Fox Terrier (Wire) X","Foxhound X","French Bulldog","French Bulldog X","German Cooly","German Pinscher","German Shepherd Dog","German Shepherd Dog X","German Shorthaired Pointer","German Shorthaired Pointer X","German Spitz","German Spitz X","Golden Retriever","Golden Retriever X","Grand Basset Griffon Vendeen","Great Dane","Great Dane X","Greyhound","Greyhound X","Griffon Bruxellois","Griffon Bruxellois X","Havanese","Hungarian Vizsla","Hungarian Vizsla X","Hungarian Wirehaired Vizsla","Irish Setter","Irish Water Spaniel","Irish Wolfhound","Irish Wolfhound X","Italian Greyhound","Italian Greyhound X","Jack Russell Terrier","Jack Russell Terrier X","Japanese Chin","Japanese Spitz","Japanese Spitz X","Keeshond","Kerry Blue Terrier","King Charles Spaniel","King Charles Spaniel X","Labrador Retriever","Labrador Retriever X","Lakeland Terrier","Leonberger","Lhasa Apso","Lhasa Apso X","Lurcher","Maltese","Maltese X","Maremma Sheepdog","Maremma Sheepdog X","Mastiff","Mastiff X","Miniature Pinscher","Miniature Pinscher X","Neapolitan Mastiff","Neapolitan Mastiff X","Newfoundland","Newfoundland X","Norfolk Terrier","Norwegian Elkhound","Nova Scotia Duck Tolling Retriever","Nova Scotia Duck Tolling Retriever X","Old English Sheepdog","Papillon","Papillon X","Pekingese","Pekingese X","Pointer","Pointer X","Pomeranian","Pomeranian X","Poodle","Poodle (Miniature)","Poodle (Miniature) X","Poodle (Toy)","Poodle (Toy) X","Poodle Standard","Poodle Standard X","Poodle X","Portugese Water Dog","Pug","Pug X","Puli","Pyrenean Mountain Dog","Rhodesian Ridgeback","Rhodesian Ridgeback X","Rottweiler","Rottweiler X","Russian Black Terrier","Saluki","Samoyed","Samoyed X","Schipperke","Schnauzer","Schnauzer (Giant)","Schnauzer (Giant) X","Schnauzer (Miniature)","Schnauzer (Miniature) X","Schnauzer X","Scottish Terrier","Scottish Terrier X","Shar Pei","Shar Pei X","Shetland Sheepdog","Shetland Sheepdog X","Shiba Inu","Shih Tzu","Shih Tzu X","Siberian Husky","Siberian Husky X","Skye Terrier","Skye Terrier X","Spaniel","Spaniel X","St. Bernard","St. Bernard X","Staffordshire Bull Terrier","Staffordshire Bull Terrier X","Sussex Spaniel","Swedish Vallhund","Tenterfield Terrier","Tenterfield Terrier X","Terrier","Terrier X","Tibetan Mastiff","Tibetan Spaniel","Tibetan Spaniel X","Tibetan Terrier","Tibetan Terrier X","Unknown","Unknown-pleaseadvise","Water Spaniel","Weimaraner","Weimaraner X","Welsh Corgi  X (Cardigan)","Welsh Corgi (Cardigan)","Welsh Corgi (Pembroke)","Welsh Pemb Corgi X","Welsh Springer Spaniel","Welsh Terrier","West Highland Terrier","West Highland White Terrier","West Highland White Terrier X","Whippet","Whippet X","White Swiss Shepherd","Wire Hair Terrier","Wire Hair Terrier X","X Breed","Yorkshire Terrier","Yorkshire Terrier X"};
+	
+	
+	private static final String[] breeds = {"Akita","Alaskan Malamute","American Bull Dog","American Bull Terrier","American Staffordshire Terrier Cross","American Staffordshire Terrier","Australian Cattle Dog","Australian Kelpie","Australian Shepherd","Australian Silky Terrier","Australian Terrier","Beagle","Bearded Collie","Belgian Shepherd Dog","Bichon Frise x","Bichon Frise","Border Collie","Boxer","British Bulldog","Bull Terrier","Bulldog","Bullmastiff","Cairn Terrier","Cavalier King Charles Spaniel","Chihuahua","Chinese Crested Dog","Cocker Spaniel","Collie (Rough Coat)","Collie (Rough)","Collie (Smooth)","Coolie","Corgi","Dachshund (Miniature)","Dachshund","Dalmation","Dobermann","Dogue De Bordeaux","English Springer Spaniel","Fox Terrier (Smooth) ","Fox Terrier (Smooth)","French Bulldog","German Shepherd Dog","German Shorthaired Pointer","Golden Retriever","Great Dane","Greyhound","Hungarian Vizsla","Irish Wolfhound","Italian Greyhound","Jack Russell Terrier","Japanese Spitz","Keeshond","King Charles Spaniel","Labrador Retriever","Lhasa Apso","Maltese","Maremma Sheepdog","Mastiff","Miniature Pinscher","Papillon","Pointer","Pomeranian","Poodle (Miniature)","Poodle (Toy)","Poodle","Pug","Rhodesian Ridgeback","Rottweiler","Samoyed","Schnauzer (Miniature)","Schnauzer","Scottish Terrier","Shar Pei","Shetland Sheepdog","Shih Tzu","Siberian Husky","Spaniel","St. Bernard","Staffordshire Bull Terrier","Tenterfield Terrier","Terrier","Tibetan Spaniel","Unknown","Weimaraner","West Highland White Terrier","Whippet"};
 	// Dog(String name, String color, String breed, String name, String gender, String cityOrigin, int Mother, int Father)
 	/*
 	25702,Brown/Tan,Dobermann,RUFUS,Desexed Male,WATERLOO CORNER,0,0
@@ -20,17 +24,21 @@ public class ImportDogsFromFile {
 	26901,Blenheim,Spaniel,CORKY,Female,HILLIER,0,0
 	26938,Black,Rottweiler,SPYDA,Desexed Female,WATERLOO CORNER,0,0
 	*/
-	public static void importDogsFromCSV(String filename) throws FileNotFoundException {
+	public static void importDogsFromCSV(String filename) throws FileNotFoundException, IOException {
+		
+		
 		int[] collectIDs = new int[3];
-		String prevBreed = "Spaniel";
-		String tmpBreed = "";
+		int breedCounter = 0;
+		int breedCounterMax = breeds.length  - 1;
 		String prevF = "";
 		String prevM = "";
 		String prevP = "";
-		int breedCounter = 0;
+		String tmpBreed = breeds[breedCounter];
 		int prevFid = 0;
 		int prevMid = 0;
 		int prevPid = 0;
+		int tmpMid = 0;
+		int tmpFid = 0;
 		String filenameOut = "Data/output.sql";
 		String sqlLine = "INSERT INTO DOGS (DogID,Color,Breed,DogName,Gender,CityOrigin,MotherID,FatherID) ";
 		sqlLine += " VALUES(%d,\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",%d,%d)";
@@ -38,6 +46,8 @@ public class ImportDogsFromFile {
 		String tmpString = "";
 		File fh = new File(filename);
 		File fhout = new File(filenameOut);
+		FileWriter fw = new FileWriter(fhout);
+		BufferedWriter bw = new BufferedWriter(fw);
 		
 		Scanner myScanner = new Scanner(fh);
 		myScanner.nextLine();
@@ -50,54 +60,71 @@ public class ImportDogsFromFile {
 			tmpString = "";
 			line = myScanner.nextLine();
 			String[] myArr = line.split(",");
-			if (myArr[6].equals("0") && myArr[7].equals("0") ) {
+			try {
+				tmpMid = Integer.parseInt(myArr[6]);
+				tmpFid = Integer.parseInt(myArr[7]);
+				
+			} catch (Exception e) {
+				tmpMid = 0;
+				tmpFid = 0;
+			}
+			
+			if (tmpMid == 0 || tmpFid == 0 ) {
 				// then a potential parent
-				if (prevBreed.equals(myArr[2])) {
+				if (tmpBreed.equals(myArr[2])) {
 					switch (myArr[4]) {
 						
 						case "Male":
 							// is there a female?
 							if (!(prevF.length()>1)) {
 								// then we have a match
-								System.out.println("Match");
+								System.out.println("Match" + line);
 								if (!(prevM.length()>1)){
+									System.out.println("new mother");
+							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 									prevM = myArr[3];
 									prevMid = Integer.parseInt(myArr[0]);
 								} else {
+									System.out.println("we have Male offfspring ");
+							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 									//we have an offspring
-									tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 									prevFid = 0;
 									prevMid = 0;
 									prevF ="";
 									prevM ="";
-									prevBreed = tmpBreed;
+									tmpBreed = breeds[breedCounter%breedCounterMax];
+									tmpBreed = myArr[2];
 								}
 								
 							} else {
 								System.out.println("Still looking for a not " + myArr[4]);
-								tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
+							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 							}
 							break;
 						case "Female":
 							// is there a male?
 							if (!(prevM.length()>1)) {
 								// then we have a match
-								System.out.println("Match");
+								System.out.println("Match" + line);
 								if (!(prevF.length()>1)) {
+									System.out.println("new mother");
+							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 									prevF = myArr[3];
 									prevFid = Integer.parseInt(myArr[0]);
 								} else {
 									//we have an offspring
-									tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
+							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
+									System.out.println("offspring");
 									prevFid = 0;
 									prevMid = 0;
 									prevF ="";
 									prevM ="";
-									prevBreed = tmpBreed;
+									tmpBreed = breeds[breedCounter%breedCounterMax];
+									tmpBreed = myArr[2];
 								}
 							} else {
 								System.out.println("Still looking for a not " + myArr[4]);
-								tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
+							tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 							}
 							break;
 						default:
@@ -107,19 +134,29 @@ public class ImportDogsFromFile {
 							
 					}
 				} else {
-					System.out.println("No breed avail .. just  print");
+					//tmpBreed = breeds[breedCounter%breedCounterMax];
 					tmpBreed = myArr[2];
+					System.out.println("No breed avail .. just  print and new breed" + tmpBreed);
 					tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
 				}
+			} else if (tmpMid > 0 || tmpFid > 0 ) {
+				tmpBreed = breeds[breedCounter%breedCounterMax];
+				tmpBreed = myArr[2];
+				System.out.println("is already a  puppet with  parents");
+				tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],tmpMid,tmpFid);
 			} else {
 				System.out.println("is already a  puppet with  parents");
-				tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],prevMid,prevFid);
+				tmpString = String.format(sqlLine, Integer.parseInt(myArr[0]),myArr[1],myArr[2],myArr[3],myArr[4],myArr[5],tmpMid,tmpFid);
 			}
 			
 			tmpString += ";";
-			System.out.println(tmpString);
+			bw.write(tmpString);
+			bw.newLine();
+			//System.out.println(tmpString);
+			//System.out.println("Breed:" + tmpBreed);
 		}
 		
+		bw.close();
 	}
 	
 	
