@@ -1,0 +1,69 @@
+WORLD-databasen
+Hvor mange lande findes der i Afrika?
+
+Lav en liste over lande i Afrika som ser ud på flg måde:
+Navn			Areal		Styreform
+Russian Federation	17075400	Federal Republic
+Ukraine			603700		Republic
+France			551500		Republic
+Spain			505992		Constitutional Monarchy
+Sweden			449964		Constitutional Monarchy
+Germany			357022		Federal Republic
+Finland			338145		Republic
+Norway			323877		Constitutional Monarchy
+Poland			323250		Republic
+Italy			301316		Republic
+
+
+Find værdien for den mindste forventede levetidsalder i Europa (brug min)
+
+Svar:
+SELECT min(LifeExpectancy) FROM world.Country where continent = "Europe";
+
+
+Lav derpå en sorteret liste der starter på flg måde men som skal rumme alle lande i Europa:
+Levetid	Navn
+64.5	Moldova
+66	Ukraine
+67.2	Russian Federation
+68	Belarus
+68.4	Latvia
+69.1	Lithuania
+
+Svar:
+select lifeexpectancy Levetid, Name Navn  from country where lifeexpectancy is not NULL and continent = "Europe" order by 1 asc;
+
+Find vha subquery frem til følgende resultat:
+Navn	Levetid
+Zambia	37.2
+
+
+Svar:
+select name Navn, lifeexpectancy Levetid from country where LifeExpectancy = (select min(LifeExpectancy) FROM world.Country);
+
+
+Lav en liste med lande og deres hovedstæder der starter som flg (232 rækker i alt) :
+
+Navn	    Verdensdel	Hovedstad
+Zimbabwe	Africa	Harare
+Uganda		Africa	Kampala
+Tunisia		Africa	Tunis
+Chad		Africa	N´Djaména
+Algeria		Africa	Alger
+Togo		Africa	Lomé
+Tanzania	Africa	Dodoma
+Angola		Africa	Luanda
+
+
+Svar:
+select co. name Navn, co. continent Verdensdel, ci.name Hovedstad from country co, city ci
+where co.code = ci.countrycode and ci.id = co.capital order by 2 desc;
+(Eller hvordan man nu vælger at joine)
+
+
+
+
+
+
+
+
